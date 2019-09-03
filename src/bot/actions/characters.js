@@ -41,6 +41,12 @@ export function addCharacter() {
             character.name = ctx.message.text;
             character.id = ctx.message.text.toLowerCase();
 
+            ctx.reply('Choose gender.', Markup.keyboard(['male', 'female']).extra());
+            return ctx.wizard.next()
+        },
+        (ctx) => {
+            character.gender = ctx.message.text;
+
             ctx.reply('Choose race.', Markup.keyboard(['human', 'ash', 'dwarf']).extra());
             return ctx.wizard.next()
         },
@@ -48,8 +54,10 @@ export function addCharacter() {
             character.race = ctx.message.text;
             character.stats = getRandomStats(character.race);
             character.status = {
-                life: character.stats.stamina
-            }
+                life: character.stats.stamina,
+                xp: 0,
+                level: 1
+            };
             const game = {
                 character,
                 world: {
@@ -67,7 +75,7 @@ export function addCharacter() {
             ctx.reply('Character created!');
             ctx.reply(`Welcome to AMP Island, ${character.name}\nSTR:${character.stats.str}\nDEX:${character.stats.dex}\nINT:${character.stats.int}`, Markup.removeKeyboard().extra());
 
-            ctx.replyWithPhoto({ source: fs.createReadStream(`src/resources/${character.race}.jpg`) });
+            ctx.replyWithPhoto({ source: fs.createReadStream(`src/resources/${character.race}-${character.gender}.jpg`) });
             return ctx.scene.leave()
         }
     );

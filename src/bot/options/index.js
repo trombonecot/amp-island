@@ -1,5 +1,5 @@
 import { printCharacter, add, inventory } from '../actions/characters';
-import { move } from '../actions/world';
+import { move, seeMap } from '../actions/world';
 
 export const options = [
     {
@@ -19,6 +19,12 @@ export const options = [
         type: "command",
         description: "See Current Character",
         action: move
+    },
+    {
+        name: "map",
+        type: "command",
+        description: "See discovered map",
+        action: seeMap
     },
     {
         name: "inventory",
