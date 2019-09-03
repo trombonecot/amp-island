@@ -4,17 +4,7 @@ import Markup from 'telegraf/markup';
 import fs from 'fs';
 
 import db from '../../bd';
-import { getRandomInt } from '../../game/utils';
-
-function getRandomEnounter(game) {
-
-    const dice = getRandomInt(0, 100);
-
-    switch(dice){
-        case 99-95:
-            console.log("");
-    }
-}
+import { generateEncounter } from '../../game/world/encounters';
 
 export function encounterWizard() {
     let game = {};
@@ -25,9 +15,14 @@ export function encounterWizard() {
            db.findOne( { playerId: ctx.from.id }).then((g) => {
                 game = g;
 
-                const text = `You arrive to the ${name}`;
+                const encounter = generateEncounter(game);
 
-                ctx.reply(`You are currently in a ${terrain}. Where do you want to go?`, Markup.keyboard(movements).extra());
+                if (!!encounter.monsters) {
+                    const actions = ['Atack', 'Sneak & Steal', 'Leave'];
+                    ctx.reply(encounter.description, Markup.keyboard(actions).extra());
+                } else {
+                    ctx.reply(encounter.description);
+                }
            });
 
            return ctx.wizard.next()

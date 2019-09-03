@@ -1,0 +1,17 @@
+{
+    "1": [
+        {
+            "title": "Nothing",
+            "description": "All quiet on this location",
+            "monsters": null
+        },
+        {
+            "title": "Goblins",
+            "description": "Some goblins are around the zone",
+            "monsters": [{
+                "num": "1D3",
+                "race": "goblin"
+            }]
+        }
+    ]
+}

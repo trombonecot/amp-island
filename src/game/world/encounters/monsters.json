@@ -1,0 +1,21 @@
+{
+    "goblin": {
+        "stats": {
+            "str": 5,
+            "dex": 5,
+            "int": 2,
+            "stamina": 20
+        },
+        "status": {
+            "life": 20
+        },
+        "inventory": {
+            "coins": "1D10",
+            "robes": "1"
+        },
+        "weapons": {
+            "combat": "dagger",
+            "distance": "short-bow"
+        }
+    }
+}
