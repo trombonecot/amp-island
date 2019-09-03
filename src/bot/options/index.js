@@ -1,20 +1,7 @@
-
-import { sayHi, sayQtal, getAll } from '../actions';
-import { add } from '../actions/add';
+import { printCharacter, add, inventory } from '../actions/characters';
+import { move } from '../actions/world';
 
 export const options = [
-    {
-        name: "sticker",
-        type: "on",
-        description: "Send an sticker and i'll answer",
-        action: sayQtal
-    },
-    {
-        name: "hi",
-        type: "hears",
-        description: "Say hi and i'll reply",
-        action: sayHi
-    },
     {
         name: "new",
         type: "command",
@@ -22,9 +9,21 @@ export const options = [
         action: add
     },
     {
-        name: "get",
+        name: "stats",
         type: "command",
-        description: "Veure tots els restaurants",
-        action: getAll
+        description: "See Current Character",
+        action: printCharacter
+    },
+    {
+        name: "move",
+        type: "command",
+        description: "See Current Character",
+        action: move
+    },
+    {
+        name: "inventory",
+        type: "command",
+        description: "See Current Character",
+        action: printCharacter
     }
 ];

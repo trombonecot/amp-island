@@ -1,4 +1,5 @@
 import { getRandomInt } from './utils.js';
+import { uniqueNamesGenerator } from 'unique-names-generator';
 
 export function getRandomMap(size) {
     let matrix = [];
@@ -7,7 +8,9 @@ export function getRandomMap(size) {
 
         for(let j=0; j<size; j++) {
             matrix[i][j] = {
-                terrain: getRandomInt(0,1) == 0 ? 'w' : 'p'
+                terrain: getRandomInt(0,1) == 0 ? 'woods' : 'plains',
+                picture: getRandomInt(1,5),
+                name: uniqueNamesGenerator({ separator: ' ' })
             }
         }
     }
