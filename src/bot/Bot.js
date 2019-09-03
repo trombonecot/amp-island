@@ -1,8 +1,10 @@
 import Telegraf from 'telegraf';
 import { options } from './options';
 import session  from 'telegraf/session';
-import { addCharacter } from './actions/characters';
-import { moveWizard, encounterWizard } from './actions/world';
+import { addCharacterWizard } from './actions/characters';
+import { moveWizard } from './actions/map';
+import { encounterWizard } from './actions/encounters';
+
 import Stage from 'telegraf/stage';
 
 class Bot {
@@ -12,12 +14,10 @@ class Bot {
     }
 
     configure() {
-        const stage = new Stage([addCharacter(),moveWizard(), encounterWizard()], { ttl: 10 });
-
-        this.bot.use(session());
-        this.bot.use(stage.middleware())
+        this.configureWizards();
+        
         this.bot.start((ctx) => {
-            ctx.reply('Welcome to Amp Island!');
+            ctx.reply('Welcome to Amp Island RPG!');
             ctx.scene.enter('add-character');
         });
 
@@ -34,6 +34,16 @@ class Bot {
                 this.bot.hears(option.name, (ctx) => option.action(ctx));
             }
         }   
+    }
+
+    configureWizards() {
+        const stage = new Stage([
+            addCharacterWizard(), 
+            moveWizard(), 
+            encounterWizard()], { ttl: 10 });
+
+        this.bot.use(session());
+        this.bot.use(stage.middleware())
     }
 
     getHelpMessage() {

@@ -1,31 +1,47 @@
-import Scene from 'telegraf/scenes/base';
 import WizardScene from 'telegraf/scenes/wizard';
 import Markup from 'telegraf/markup';
 import db from '../../bd';
-import { getRandomMap } from '../world/map';
-import { getRandomStats } from '../world/characters';
+import { initializeWorld } from '../../game/world';
+import { intializeCharacter } from '../../game/characters';
 import fs from 'fs';
+
+function printPortait(ctx, c) {
+    ctx.replyWithPhoto({ source: fs.createReadStream(`src/resources/${c.race}-${c.gender}.jpg`) });
+}
+
+function createGame(character, userId) {
+    const game = {
+        character: intializeCharacter(character),
+        world: initializeWorld(),
+        playerId: userId
+    }
+
+    db.insert(game);
+    ctx.session.game = game;
+}
 
 export function printCharacter(ctx) {
     db.findOne( { playerId: ctx.from.id }).then((game) => {
         const c = game.character;
         const sheet = `Name: ${c.name}\n` +
                 `Race: ${c.race}\n` +
+                `Gender: ${c.gender}\n` +
                 `Stamina: ${c.status.life}/${c.stats.stamina}\n` +
                 `Strength: ${c.stats.str}\n` +
                 `Dextrety: ${c.stats.dex}\n` +
-                `Inteligence: ${c.stats.int}\n`;
+                `Inteligence: ${c.stats.int}\n` +
+                `Level: ${c.status.level} (${c.status.xp})\n`;
 
         ctx.reply(sheet);
+        printPortait(ctx, c);
     });
 }
 
-export function addCharacter() {
+export function addCharacterWizard() {
     let character = {};
 
     const addWizard = new WizardScene('add-character',
         (ctx) => {
-
            db.findOne( { playerId: ctx.from.id }).then((game) => {
                if (game != null) {
                     ctx.reply(`You cannot create a new adventurer, as you are playing with ${game.character.name}`);
@@ -52,30 +68,13 @@ export function addCharacter() {
         },
         (ctx) => {
             character.race = ctx.message.text;
-            character.stats = getRandomStats(character.race);
-            character.status = {
-                life: character.stats.stamina,
-                xp: 0,
-                level: 1
-            };
-            const game = {
-                character,
-                world: {
-                    position: {
-                        x: 0,
-                        y: 0
-                    },
-                    map: getRandomMap(3)
-                },
-                playerId: ctx.from.id
-            }
 
-            db.insert(game);
-            ctx.session.game = game;
+            createGame(character, ctx.from.id);
+
             ctx.reply('Character created!');
             ctx.reply(`Welcome to AMP Island, ${character.name}\nSTR:${character.stats.str}\nDEX:${character.stats.dex}\nINT:${character.stats.int}`, Markup.removeKeyboard().extra());
 
-            ctx.replyWithPhoto({ source: fs.createReadStream(`src/resources/${character.race}-${character.gender}.jpg`) });
+            printPortait(ctx, character);
             return ctx.scene.leave()
         }
     );

@@ -1,4 +1,4 @@
-import { getRandomInt } from './utils.js';
+import { getRandomInt } from '../utils';
 
 export function getRandomStats(race) {
 
@@ -20,3 +20,11 @@ export function getRandomStats(race) {
     return stats;
 }
 
+export function intializeCharacter(character) {
+    character.stats = getRandomStats(character.race);
+    character.status = {
+        life: character.stats.stamina,
+        xp: 0,
+        level: 1
+    };
+}

@@ -1,5 +1,6 @@
 import { printCharacter, add, inventory } from '../actions/characters';
-import { move, seeMap } from '../actions/world';
+import { move, seeMap } from '../actions/map';
+
 
 export const options = [
     {

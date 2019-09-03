@@ -1,4 +1,4 @@
-import { getRandomInt } from './utils.js';
+import { getRandomInt } from '../utils.js';
 import { uniqueNamesGenerator } from 'unique-names-generator';
 import { SIZE } from '../../constants';
 
