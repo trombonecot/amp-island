@@ -48,8 +48,12 @@ export function seeMap(ctx) {
             for(let j=0; j<SIZE; j++) {
 
                 const terrain = game.world.map[i][j].terrain == 'woods' ? '🌳' : '🏕️'; 
-                const name = !!game.world.map[i][j].visited ? game.world.map[i][j].name + terrain : '?';
-                map += ' | ' + name;
+
+                if (game.world.position.x == i && game.world.position.y == j) {
+                    map += '🚶';
+                } else {
+                    map += !!game.world.map[i][j].visited ? terrain : '❓';
+                }
             }
             map += '\n';
         }

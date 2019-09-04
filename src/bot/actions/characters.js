@@ -17,7 +17,6 @@ function createGame(character, userId) {
     }
 
     db.insert(game);
-    ctx.session.game = game;
 }
 
 export function printCharacter(ctx) {

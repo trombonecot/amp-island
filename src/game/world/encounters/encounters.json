@@ -11,7 +11,8 @@
             "monsters": [{
                 "num": "1D3",
                 "race": "goblin"
-            }]
+            }],
+            "actions": ["Atack", "Sneak & Steal", "Leave"]
         }
     ]
 }
