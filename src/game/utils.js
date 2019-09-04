@@ -5,10 +5,6 @@ export function getRandomInt(min, max) {
 }
 
 export function rollDice(dice) {
-
-
-    console.log(dice);
-
     const diceSplitted = dice.split('D'),
         number = diceSplitted[0],
         faces = diceSplitted[1];

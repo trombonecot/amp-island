@@ -1,9 +1,10 @@
 import Telegraf from 'telegraf';
+import { leave } from 'telegraf/stage';
 import { options } from './options';
 import session  from 'telegraf/session';
 import { addCharacterWizard } from './actions/characters';
-import { moveWizard } from './actions/map';
-import { encounterWizard } from './actions/encounters';
+import { moveScene } from './actions/map';
+import { encounterScene } from './actions/encounters';
 
 import Stage from 'telegraf/stage';
 
@@ -19,6 +20,10 @@ class Bot {
         this.bot.start((ctx) => {
             ctx.reply('Welcome to Amp Island RPG!');
             ctx.scene.enter('add-character');
+
+            db.findOne( { playerId: ctx.from.id }).then((game) => {
+                ctx.session.game = game;
+            });
         });
 
         this.bot.help((ctx) => ctx.reply(this.getHelpMessage()));
@@ -38,9 +43,10 @@ class Bot {
 
     configureWizards() {
         const stage = new Stage([
-            addCharacterWizard(), 
-            moveWizard(), 
-            encounterWizard()], { ttl: 10 });
+            addCharacterWizard(),
+            moveScene(),
+            encounterScene()], { ttl: 10 }
+        );
 
         this.bot.use(session());
         this.bot.use(stage.middleware())

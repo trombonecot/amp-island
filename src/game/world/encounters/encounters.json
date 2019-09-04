@@ -9,10 +9,10 @@
             "title": "Goblins",
             "description": "Some goblins are around the zone",
             "monsters": [{
-                "num": "1D3",
+                "num": "1D1",
                 "race": "goblin"
             }],
-            "actions": ["Atack", "Sneak & Steal", "Leave"]
+            "actions": ["Attack", "Sneak & Steal", "Leave"]
         }
     ]
 }

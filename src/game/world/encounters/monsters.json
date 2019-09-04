@@ -1,9 +1,10 @@
 {
     "goblin": {
+        "name": "Goblin thug",
         "stats": {
-            "str": 5,
-            "dex": 5,
-            "int": 2,
+            "str": 30,
+            "dex": 45,
+            "int": 25,
             "stamina": 20
         },
         "status": {

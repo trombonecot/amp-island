@@ -14,7 +14,9 @@ function createGame(character, userId) {
         character: intializeCharacter(character),
         world: initializeWorld(),
         playerId: userId
-    }
+    };
+
+    console.log(game);
 
     db.insert(game);
 }
